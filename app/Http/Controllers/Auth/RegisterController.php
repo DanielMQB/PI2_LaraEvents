@@ -7,8 +7,8 @@ use App\Models\{
     User,
     Address
 };
+use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Foreach_;
 
 class RegisterController extends Controller
 {
@@ -16,7 +16,7 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function store(Request $request){
+    public function store(RegisterRequest $request){
         $requestdata = $request->all();
         $requestdata['user']['role'] = 'participant';
 
