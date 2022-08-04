@@ -9,6 +9,7 @@ use App\Models\{
 };
 use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -17,14 +18,26 @@ class RegisterController extends Controller
     }
 
     public function store(RegisterRequest $request){
-        $requestdata = $request->all();
+        $requestdata = $request->validated();
         $requestdata['user']['role'] = 'participant';
 
-        $user = User::create($requestdata['user']);
-        $user->address()->create($requestdata['address']);
+        DB::beginTransaction();
 
-        foreach ($requestdata['phones'] as $phone) {
-            $user->phone()->create($phone);
+        try{
+
+            $user = User::create($requestdata['user']);
+            $user->address()->create($requestdata['address']);
+
+            foreach ($requestdata['phones'] as $phone) {
+                $user->phone()->create($phone);
+            }
+
+            DB::commit();
+
+            return 'Conta criada com sucesso';
+        }catch(\Exception $exception){
+            DB::rollBack();
+            return 'Mensagem: ' . $exception->getMessage();
         }
     }
 }
