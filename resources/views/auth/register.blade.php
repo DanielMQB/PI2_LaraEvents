@@ -119,6 +119,6 @@
 
     <script src="{{ asset('vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{ asset('vendor/jquery-mask/jquery.mask.min.js')}}"></script>
-    <script src="{{ asset('js/register.js') }}"></script>
+    <script src="{{ asset('js/auth/register.js') }}"></script>
 </body>
 </html>
