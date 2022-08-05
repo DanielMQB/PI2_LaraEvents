@@ -23,9 +23,10 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $userRole = auth()->user()->role;
-            return redirect(UserService::getDashboardRouteBasedOnUserRole($userRole));
-        }
 
+            return redirect(UserService::getDashboardRouteBasedOnUserRole($userRole));
+
+        }
         return redirect()
             ->route('auth.login.create')
             ->with('warning', 'Autenticação Falhou!')
