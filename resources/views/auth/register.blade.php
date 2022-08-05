@@ -119,30 +119,6 @@
 
     <script src="{{ asset('vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{ asset('vendor/jquery-mask/jquery.mask.min.js')}}"></script>
-    <script>
-        $('.cpf').mask('000.000.000-00');
-        $('.cep').mask('00000-000');
-        $('.uf').mask('SS');
-        $('.phone').mask('(00) 0000-0000');
-        $('.cellphone').mask('(00) 00000-0000');
-
-        $(document).on('blur','#cep',function(){
-            const cep = $(this).val();
-
-            $.ajax({
-                url: 'https://viacep.com.br/ws/'+cep+'/json/',
-                methor: 'GET',
-                dataType: 'json',
-                success: function(data){
-
-                    $('#uf').val(data.uf);
-                    $('#city').val(data.localidade);
-                    $('#street').val(data.logradouro);
-                    $('#district').val(data.bairro);
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('js/register.js') }}"></script>
 </body>
-
 </html>
