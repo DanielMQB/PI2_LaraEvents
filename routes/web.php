@@ -4,7 +4,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Participant\Dashboard\DashboardController as ParticipantDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Organization\Dashboard\DashboardController as OrganizationDashboardController;
+use App\Http\Controllers\Organization\{
+    Dashboard\DashboardController as OrganizationDashboardController,
+    Event\EventController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +36,17 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('participant.dashboard.index')
         ->middleware('role:participant');
 
-        Route::get('organization/dashboard', [OrganizationDashboardController::class, 'index'])
-        ->name('organization.dashboard.index')
-        ->middleware('role:organization');
+    Route::group(['prefix' => 'organization', 'as' => 'organization.', 'middleware' => 'role:organization'], function () {
+        Route::get('dashboard', [OrganizationDashboardController::class, 'index'])
+            ->name('dashboard.index');
+
+        Route::get('events', [EventController::class, 'index'])
+            ->name('events.index');
+
+        Route::get('events/create', [EventController::class, 'create'])
+            ->name('events.create');
+
+        Route::post('events', [EventController::class, 'store'])
+            ->name('events.store');
+    });
 });
