@@ -14,12 +14,14 @@ class Event extends Model
     protected $fillable =[
         'name',
         'speaker_name',
-        'star_date',
+        'start_date',
         'end_date',
         'target_audience',
         'participants_limit',
     ];
 
+
+    //mutators
     public function setStartDateAttribute($value){
         $this->attributes['start_date'] = Carbon::createFromFormat('d/m/Y H:i', $value)
         ->format('Y-m-d H:i:s');
@@ -27,5 +29,14 @@ class Event extends Model
     public function setEndDateAttribute($value){
         $this->attributes['end_date'] = Carbon::createFromFormat('d/m/Y H:i', $value)
         ->format('Y-m-d H:i:s');
+    }
+
+    //accessors
+    public function getStartDateFormattedAttribute(){
+        return Carbon::parse($this->start_date)->format('d/m/Y H:i');
+    }
+
+    public function getEndDateFormattedAttribute(){
+        return Carbon::parse($this->end_date)->format('d/m/Y H:i');
     }
 }

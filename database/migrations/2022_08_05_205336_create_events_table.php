@@ -21,8 +21,8 @@ return new class extends Migration
             $table->dateTime('end_date');
             $table->text('target_audience');
             $table->integer('participants_limit');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
