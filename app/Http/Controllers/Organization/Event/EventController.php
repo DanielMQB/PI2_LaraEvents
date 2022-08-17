@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Organization\Event;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organization\Event\EventRequest;
-use App\Models\Event;
+use App\Models\{Event,User};
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -35,6 +35,15 @@ class EventController extends Controller
         return redirect()
             ->route('organization.events.index')
             ->with('success', 'Evento cadastrado com sucesso');
+    }
+
+    public function show(Event $event){
+        return view('organization.events.show', [
+            'event' => $event,
+            'allParticipantUsers' => User::query()
+                ->where('role', 'participant')
+                ->get()
+        ]);
     }
 
     public function edit(Event $event){
