@@ -42,6 +42,9 @@ class EventController extends Controller
             'event' => $event,
             'allParticipantUsers' => User::query()
                 ->where('role', 'participant')
+                ->whereDoesntHave('events', function($query) use($event){
+                    $query->where('id',$event->id);
+                })
                 ->get()
         ]);
     }

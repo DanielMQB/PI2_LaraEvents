@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Organization\{
     Dashboard\DashboardController as OrganizationDashboardController,
-    Event\EventController
+    Event\EventController,
+    Event\EventSubscriptionController
 };
 
 /*
@@ -61,6 +62,11 @@ Route::group(['middleware' => 'auth'], function () {
         // Route::delete('events/{event}', [EventController::class, 'destroy'])
         //     ->name('events.destroy');
 
+        // eventos
+        Route::post('events/{event}/subscriptions', [EventSubscriptionController::class, 'store'])
+            ->name('events.subscriptions.store');
+        Route::delete('events/{event}/subscriptions/{user}', [EventSubscriptionController::class, 'destroy'])
+            ->name('events.subscriptions.destroy');
         Route::resource('events', EventController::class);
     });
 });

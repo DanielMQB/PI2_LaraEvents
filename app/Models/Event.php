@@ -20,6 +20,11 @@ class Event extends Model
         'participants_limit',
     ];
 
+    //relationships
+    public function users(){
+        return $this->hasMany(User::class);
+    }
+
 
     //mutators
     public function setStartDateAttribute($value){
