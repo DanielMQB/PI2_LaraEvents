@@ -8,10 +8,6 @@
                 <div class="card-body">
                     <ul class="list-group text-center">
                         <li class="list-group-item">
-                            <span class="font-weight-bold mb-1">ID: </span>
-                            <span>{{ $event->id }}</span>
-                        </li>
-                        <li class="list-group-item">
                             <span class="font-weight-bold mb-1">Palestrante: </span>
                             <span>{{ $event->speaker_name }}</span>
                         </li>
@@ -36,7 +32,7 @@
     <div class="card mt-4">
         <div class="card-header bg-primary text-white">Participantes</div>
         <div class="card-body">
-            <form method="POST" action="{{ route('organization.events.subscriptions.store',  $event->id) }}">
+            <form method="POST" action="{{ route('organization.events.subscriptions.store', $event) }}">
                 @csrf
                 <div class="row">
                     <div class="col-12 col-lg-6">
@@ -60,12 +56,41 @@
                     <th class="text-right">Ações</th>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($event->users as $user)
+                    @foreach ($event->users as $user)
                         <tr>
                             <td>{{ $user->name }}</td>
-                            <td></td>
+                            <td class="text-right">
+                                <div class="d-flex align-items-center justify-content-end">
+                                    @if (!$eventStartDateHasPassed)
+                                        <form
+                                            action="{{ route('organization.events.presences', [
+                                                'event' => $event->id,
+                                                'user' => $user->id
+                                            ]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <button
+                                                class="btn btn-sm mr-2 {{ $user->pivot->present ? 'btn-danger' : 'btn-success' }}">
+                                                {{ $user->pivot->present ? 'Remover presença' : 'Assinar Presença' }}
+                                            </button>
+                                        </form>
+                                    @endif
+                                    @if (!$eventEndDateHasPassed)
+                                        <form
+                                            action="{{ route('organization.events.subscriptions.destroy', [
+                                                'event' => $event->id,
+                                                'user' => $user->id,
+                                            ]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger">Remover Inscrição</button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </td>
                         </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
         </div>

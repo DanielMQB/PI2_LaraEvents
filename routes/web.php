@@ -9,6 +9,7 @@ use App\Http\Controllers\Organization\{
     Event\EventController,
     Event\EventSubscriptionController
 };
+use App\Http\Controllers\Organization\Event\EventPresenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('events.subscriptions.store');
         Route::delete('events/{event}/subscriptions/{user}', [EventSubscriptionController::class, 'destroy'])
             ->name('events.subscriptions.destroy');
+        Route::post('events/{event}/presences/{user}',EventPresenceController::class)->name('event.presences');
         Route::resource('events', EventController::class);
     });
 });

@@ -22,7 +22,7 @@ class Event extends Model
 
     //relationships
     public function users(){
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('present');
     }
 
 

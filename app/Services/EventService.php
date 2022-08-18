@@ -6,6 +6,10 @@ use App\Models\Event;
 use App\Models\User;
 
 class EventService{
+    public static function eventStartDateHasPassed(Event $event){
+        return $event->start_date < now();
+    }
+
     public static function userSubscribedOnEvent(User $user, Event $event){
         return $user->events()->where('id', $event->id)->exists();
     }
@@ -16,5 +20,19 @@ class EventService{
 
     public static function eventParticipantsLimitHasReached(Event $event){
         return $event->users->count() === $event->participants_limit;
+    }
+
+    public static function userIsPresentOnEvent(Event $event, User $user){
+        $subscription = $event->users()->where('user_id', $user->id)->first();
+
+        if(!$subscription){
+            return false;
+        }
+
+        if(!$subscription->pivot->present){
+            return true;
+        }
+
+        return false;
     }
 }
