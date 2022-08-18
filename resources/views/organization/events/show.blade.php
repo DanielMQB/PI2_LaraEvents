@@ -61,7 +61,7 @@
                             <td>{{ $user->name }}</td>
                             <td class="text-right">
                                 <div class="d-flex align-items-center justify-content-end">
-                                    @if (!$eventStartDateHasPassed)
+                                    @if ($eventStartDateHasPassed)
                                         <form
                                             action="{{ route('organization.events.presences', [
                                                 'event' => $event->id,

@@ -22,7 +22,7 @@ class EventPresenceController extends Controller
             );
         }
 
-        if(EventService::userSubscribedOnEvent($user,$event)){
+        if(!EventService::userSubscribedOnEvent($user,$event)){
             return back()->with(
                 'warning',
                 'Operação Inválida! O usuário não está inscrito no evento!'

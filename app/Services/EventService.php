@@ -29,7 +29,7 @@ class EventService{
             return false;
         }
 
-        if(!$subscription->pivot->present){
+        if($subscription->pivot->present){
             return true;
         }
 
